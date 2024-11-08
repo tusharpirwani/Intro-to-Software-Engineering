@@ -6,31 +6,9 @@ Created on Fri Nov  8 09:27:53 2024
 @author: tusharpirwani
 """
 
-# Read the maze from a text file
-with open("maze_output.txt", "r") as file:
-    maze_lines = file.read().splitlines()
+def read_maze(filename):
+    """Reads the maze from a file and returns it as a list of lines."""
+    with open(filename, "r") as file:
+        return file.read().splitlines()
 
-def convert_cell(maze_lines, x, y):
-    """Determines the box-drawing character for a cell based on neighboring walls."""
-    connections = {
-        (True, True, False, False): '─',   # Horizontal line
-        (False, False, True, True): '│',   # Vertical line
-        (True, False, False, True): '┐',   # Top-left corner
-        (False, True, False, True): '┌',   # Top-right corner
-        (True, False, True, False): '┘',   # Bottom-left corner
-        (False, True, True, False): '└',   # Bottom-right corner
-        (True, True, True, False): '┴',    # Bottom intersection
-        (True, True, False, True): '┬',    # Top intersection
-        (True, False, True, True): '┤',    # Right intersection
-        (False, True, True, True): '├',    # Left intersection
-        (True, True, True, True): '┼'      # Full intersection
-    }
 
-    # Check for walls around the current cell
-    left = (x > 0 and maze_lines[y][x - 1] in '+-|')  # checks if the cell to the left is one of +, -, or |, indicating there’s a wall to the left.
-    right = (x < len(maze_lines[y]) - 1 and maze_lines[y][x + 1] in '+-|') # Checks if the cell to the right has a wall.
-    up = (y > 0 and maze_lines[y - 1][x] in '+-|')  # Checks if the cell above has a wall
-    down = (y < len(maze_lines) - 1 and maze_lines[y + 1][x] in '+-|') # Checks if the cell below has a wall.
-
-    # Return the corresponding box-drawing character or space if not found
-    return connections.get((left, right, up, down), ' ')
