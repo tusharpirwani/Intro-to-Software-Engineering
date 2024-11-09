@@ -12,3 +12,46 @@ def read_maze(filename):
         return file.read().splitlines()
 
 
+def convert_cell(maze_lines, x, y):
+    """Determines the box-drawing character for a cell based on neighboring walls."""
+    connections = {
+        (True, True, False, False): '─',   # Horizontal line
+        (False, False, True, True): '│',   # Vertical line
+        (True, False, False, True): '┐',   # Top-left corner
+        (False, True, False, True): '┌',   # Top-right corner
+        (True, False, True, False): '┘',   # Bottom-left corner
+        (False, True, True, False): '└',   # Bottom-right corner
+        (True, True, True, False): '┴',    # Bottom intersection
+        (True, True, False, True): '┬',    # Top intersection
+        (True, False, True, True): '┤',    # Right intersection
+        (False, True, True, True): '├',    # Left intersection
+        (True, True, True, True): '┼'      # Full intersection
+    }
+    
+    # Check for walls around the current cell
+    left = (x > 0 and maze_lines[y][x - 1] in '+-|')  # checks if the cell to the left is one of +, -, or |, indicating there’s a wall to the left.
+    right = (x < len(maze_lines[y]) - 1 and maze_lines[y][x + 1] in '+-|') # Checks if the cell to the right has a wall.
+    up = (y > 0 and maze_lines[y - 1][x] in '+-|')  # Checks if the cell above has a wall
+    down = (y < len(maze_lines) - 1 and maze_lines[y + 1][x] in '+-|') # Checks if the cell below has a wall.
+
+   # Return the corresponding box-drawing character or space if not found
+    return connections.get((left, right, up, down), ' ')
+
+def convert_maze(maze_lines):
+    """Converts the maze using box-drawing characters for improved readability."""
+    converted_maze = []
+    
+    for y, line in enumerate(maze_lines):
+        new_line = ""
+        for x, char in enumerate(line):
+            if char == '+':
+                new_line += convert_cell(maze_lines, x, y)
+            elif char == '-':
+                new_line += '─'
+            elif char == '|':
+                new_line += '│'
+            else:
+                new_line += char  # Leave other characters unchanged
+        converted_maze.append(new_line)
+    
+    return converted_maze
