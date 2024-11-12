@@ -29,3 +29,67 @@ def test_read_maze():
         assert True  # FileNotFoundError is expected
     else:
         assert False, "Expected FileNotFoundError"
+        
+def test_check_walls():
+    maze = [
+        "+---+",
+        "|   |",
+        "+---+"
+    ]
+    
+    # Test 1: Top-left corner (0, 0)
+    actual = maze_converter.check_walls(maze, 0, 0)
+    expected = (False, True, False, True)  # No left wall, but there is a right and bottom wall
+    assert expected == actual, "Top-left corner"
+
+    # Test 2: Center cell (1, 1)
+    actual = maze_converter.check_walls(maze, 1, 1)
+    expected = (True, True, True, True)  # Walls on all sides
+    assert expected == actual, "Center cell"
+    
+    # Test 3: Top-right corner (4, 0)
+    actual = maze_converter.check_walls(maze, 4, 0)
+    expected = (True, False, False, True)  # Wall to the left, no wall to the right, wall below
+    assert expected == actual, "Top-right corner"
+
+    # Test 4: Bottom-left corner (0, 2)
+    actual = maze_converter.check_walls(maze, 0, 2)
+    expected = (False, True, True, False)  # No wall to the left, wall to the right, wall above
+    assert expected == actual, "Bottom-left corner"
+
+    # Test 5: Bottom-right corner (4, 2)
+    actual = maze_converter.check_walls(maze, 4, 2)
+    expected = (True, False, True, False)  # Wall to the left, no wall to the right, wall above
+    assert expected == actual, "Bottom-right corner"
+
+    # Test 6: Edge cell (not a corner) (1, 0)
+    actual = maze_converter.check_walls(maze, 1, 0)
+    expected = (True, True, False, True)  # Wall to the left and right, no wall above, wall below
+    assert expected == actual, "Edge cell (not a corner)"
+
+    # Test 7: Edge cell (bottom edge) (1, 2)
+    actual = maze_converter.check_walls(maze, 1, 2)
+    expected = (True, True, True, False)  # Wall to the left and right, wall above, no wall below
+    assert expected == actual, "Edge cell (bottom edge)"
+    
+    # Test 8: Left edge (not a corner) (0, 1)
+    actual = maze_converter.check_walls(maze, 0, 1)
+    expected = (False, True, True, True)  # No wall to the left, wall to the right, wall above, wall below
+    assert expected == actual, "Left edge (not a corner)"
+
+    # Test 9: Right edge (not a corner) (4, 1)
+    actual = maze_converter.check_walls(maze, 4, 1)
+    expected = (True, False, True, True)  # Wall to the left, no wall to the right, wall above, wall below
+    assert expected == actual, "Right edge (not a corner)"
+
+    # Test 10: Non-wall cell (2, 1)
+    actual = maze_converter.check_walls(maze, 2, 1)
+    expected = (False, False, True, True)  # No wall to the left, no wall to the right, wall above, wall below
+    assert expected == actual, "Non-wall cell"
+
+    # Test 11: Non-wall top cell (2, 0)
+    actual = maze_converter.check_walls(maze, 2, 0)
+    expected = (False, False, False, True)  # No wall to the left, no wall to the right, no wall above, wall below
+    assert expected == actual, "Non-wall top cell"
+
+
