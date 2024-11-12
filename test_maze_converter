@@ -153,5 +153,20 @@ def test_convert_cell():
     actual = maze_converter.convert_cell(maze, 0, 1)
     expected = "│"  # Vertical line (wall)
     assert expected == actual, "Expected '│' for Vertical wall cell"
-
+    
+def test_convert_maze():
+    maze = [
+        "+---+",
+        "|   |",
+        "+---+"
+    ]
+    
+    # Test 1: Convert Entire Maze
+    actual = maze_converter.convert_maze(maze)
+    expected = [
+        "┐───┌",
+        "│   │",
+        "┘───┘"
+    ]
+    assert expected == actual, "Convert entire maze"
 
