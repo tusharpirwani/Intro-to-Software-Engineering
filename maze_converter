@@ -64,13 +64,20 @@ def convert_maze(maze_lines):
     
     return converted_maze
 
-def display_maze(converted_maze):
-    """Prints the converted maze to the terminal."""
+def display_maze(original_maze, converted_maze):
+    """Prints both the original and converted maze to the terminal for comparison."""
+    print("Original Maze:")
+    for line in original_maze:
+        print(line)
+    
+    print("\nConverted Maze:")
     for line in converted_maze:
         print(line)
 
 # Main execution to read, convert, and display the maze
 maze_lines = read_maze("maze_output.txt")
 converted_maze = convert_maze(maze_lines)
-display_maze(converted_maze)
+display_maze(maze_lines, converted_maze)
+
+
 
