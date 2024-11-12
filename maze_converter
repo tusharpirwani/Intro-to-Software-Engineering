@@ -7,7 +7,7 @@ Created on Fri Nov  8 09:27:53 2024
 """
 
 def read_maze(filename):
-    """Reads the maze from a file and returns it as a list of lines."""
+    """Reads the maze from a file and returns it as a list of lines"""
     with open(filename, "r") as file:
         return file.read().splitlines()
 
@@ -55,3 +55,14 @@ def convert_maze(maze_lines):
         converted_maze.append(new_line)
     
     return converted_maze
+
+def display_maze(converted_maze):
+    """Prints the converted maze to the terminal."""
+    for line in converted_maze:
+        print(line)
+
+# Main execution to read, convert, and display the maze
+maze_lines = read_maze("maze_output.txt")
+converted_maze = convert_maze(maze_lines)
+display_maze(converted_maze)
+
