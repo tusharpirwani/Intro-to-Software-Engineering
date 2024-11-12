@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Nov 12 13:53:06 2024
+
+@author: tusharpirwani
+"""
+import maze_converter
+
+def test_read_maze():
+    # Test 1: Valid Maze File
+    actual = maze_converter.read_maze("valid_maze.txt")
+    expected = [
+        "+---+",
+        "|   |",
+        "+---+"
+    ]
+    assert expected == actual, "Valid maze file"
+
+    # Test 2: Empty Maze File
+    actual = maze_converter.read_maze("empty_maze.txt")
+    expected = []
+    assert expected == actual, "Empty maze file"
+
+    # Test 3: Non-existent File
+    try:
+        maze_converter.read_maze("nonexistent_maze.txt")
+    except FileNotFoundError:
+        assert True  # FileNotFoundError is expected
+    else:
+        assert False, "Expected FileNotFoundError"
