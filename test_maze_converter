@@ -189,4 +189,14 @@ def test_display_maze():
     except Exception as e:
         assert False, f"Display function failed with error: {e}"
         
+        
+if __name__ == "__main__":
+    test_read_maze()
+    test_check_walls()
+    test_convert_cell()
+    test_convert_maze()
+    test_display_maze()
+    
+
+        
 
