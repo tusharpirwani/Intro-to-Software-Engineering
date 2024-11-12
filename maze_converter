@@ -11,6 +11,16 @@ def read_maze(filename):
     with open(filename, "r") as file:
         return file.read().splitlines()
 
+def check_walls(maze_lines, x, y):
+    """Checks the neighboring cells for walls and returns a tuple (left, right, up, down)."""
+    left = (x > 0 and maze_lines[y][x - 1] in '+-|')  # Checks if the cell to the left has a wall
+    right = (x < len(maze_lines[y]) - 1 and maze_lines[y][x + 1] in '+-|')  # Checks if the cell to the right has a wall
+    up = (y > 0 and maze_lines[y - 1][x] in '+-|')  # Checks if the cell above has a wall
+    down = (y < len(maze_lines) - 1 and maze_lines[y + 1][x] in '+-|')  # Checks if the cell below has a wall
+
+    return left, right, up, down
+    
+
 
 def convert_cell(maze_lines, x, y):
     """Determines the box-drawing character for a cell based on neighboring walls."""
@@ -28,14 +38,12 @@ def convert_cell(maze_lines, x, y):
         (True, True, True, True): '┼'      # Full intersection
     }
     
-    # Check for walls around the current cell
-    left = (x > 0 and maze_lines[y][x - 1] in '+-|')  # checks if the cell to the left is one of +, -, or |, indicating there’s a wall to the left.
-    right = (x < len(maze_lines[y]) - 1 and maze_lines[y][x + 1] in '+-|') # Checks if the cell to the right has a wall.
-    up = (y > 0 and maze_lines[y - 1][x] in '+-|')  # Checks if the cell above has a wall
-    down = (y < len(maze_lines) - 1 and maze_lines[y + 1][x] in '+-|') # Checks if the cell below has a wall.
+# Get the status of neighboring walls using the check_walls function
+    left, right, up, down = check_walls(maze_lines, x, y)
 
-   # Return the corresponding box-drawing character or space if not found
+    # Return the corresponding box-drawing character or space if not found
     return connections.get((left, right, up, down), ' ')
+
 
 def convert_maze(maze_lines):
     """Converts the maze using box-drawing characters for improved readability."""
