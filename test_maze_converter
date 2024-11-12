@@ -91,5 +91,67 @@ def test_check_walls():
     actual = maze_converter.check_walls(maze, 2, 0)
     expected = (False, False, False, True)  # No wall to the left, no wall to the right, no wall above, wall below
     assert expected == actual, "Non-wall top cell"
+    
+def test_convert_cell():
+    maze = [
+        "+---+",
+        "|   |",
+        "+---+"
+    ]
+    
+    # Test 1: Top-left corner (0, 0)
+    actual = maze_converter.convert_cell(maze, 0, 0)
+    expected = "┐"  # Top-left corner box-drawing character
+    assert expected == actual, "Expected '┐' for Top-left corner"
+
+    # Test 2: Center cell (1, 1)
+    actual = maze_converter.convert_cell(maze, 1, 1)
+    expected = "│"  # Vertical line (wall)
+    assert expected == actual, "Expected '│' for Center cell"
+    
+    # Test 3: Top-right corner (4, 0)
+    actual = maze_converter.check_walls(maze, 4, 0)
+    expected = "┌"  # Top right corner box drawing character 
+    assert expected == actual, "Expected '┌' for Top-right corner"
+
+    # Test 4: Bottom-left corner (0, 2)
+    actual = maze_converter.check_walls(maze, 0, 2)
+    expected = "┘"  # Bottom left corner box drawing character 
+    assert expected == actual, "Expected '┘' for Bottom-left corner"
+
+    # Test 5: Bottom-right corner (4, 2)
+    actual = maze_converter.check_walls(maze, 4, 2)
+    expected = "└" # Bottom right corner box drawing character
+    assert expected == actual, "Expected '└' for Bottom-right corner"
+
+    # Test 6: Edge cell (not a corner) (1, 0)
+    actual = maze_converter.check_walls(maze, 1, 0)
+    expected = "├"  # Left edge box-drawing character
+    assert expected == actual, "Expected '├' for Left edge (non-corner)"
+
+    # Test 7: Right edge (non-corner) (4, 1)
+    actual = maze_converter.convert_cell(maze, 4, 1)
+    expected = "┤"  # Right edge box-drawing character
+    assert expected == actual, "Expected '┤' for Right edge (non-corner)"
+ 
+    # Test 8: Top edge (non-corner) (2, 0)
+    actual = maze_converter.convert_cell(maze, 2, 0)
+    expected = "┬"  # Top edge box-drawing character
+    assert expected == actual, "Expected '┬' for Top edge (non-corner)"
+
+    # Test 9: Bottom edge (non-corner) (2, 2)
+    actual = maze_converter.convert_cell(maze, 2, 2)
+    expected = "┴"  # Bottom edge box-drawing character
+    assert expected == actual, "Expected '┴' for Bottom edge (non-corner)"
+
+    # Test 10: Horizontal wall cell (1, 2)
+    actual = maze_converter.convert_cell(maze, 1, 2)
+    expected = "─"  # Horizontal line (wall)
+    assert expected == actual, "Expected '─' for Horizontal wall cell"
+
+    # Test 11: Vertical wall cell (0, 1)
+    actual = maze_converter.convert_cell(maze, 0, 1)
+    expected = "│"  # Vertical line (wall)
+    assert expected == actual, "Expected '│' for Vertical wall cell"
 
 
