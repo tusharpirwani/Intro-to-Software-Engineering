@@ -169,4 +169,24 @@ def test_convert_maze():
         "┘───┘"
     ]
     assert expected == actual, "Convert entire maze"
+    
+def test_display_maze():
+    original_maze = [
+        "+---+",
+        "|   |",
+        "+---+"
+    ]
+    converted_maze = [
+        "┐───┌",
+        "│   │",
+        "┘───┘"
+    ]
+    
+    # Test 1: Display Original and Converted Maze
+    try:
+        maze_converter.display_maze(original_maze, converted_maze)
+        assert True  # If no error, the test passed as the maze is printed
+    except Exception as e:
+        assert False, f"Display function failed with error: {e}"
+        
 
