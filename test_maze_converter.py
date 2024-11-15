@@ -90,7 +90,7 @@ def test_convert_cell():
     assert result == expected, f"Expected {expected}, but got {result}"
 
 # 4. Black Box Test for convert_cell
-#def test_convert_maze():
+def test_convert_maze():
     maze = [
         "+---+",
         "|   |",
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     test_read_maze()
     test_check_walls()
     test_convert_cell()
-   # test_convert_maze()
+    test_convert_maze()
     
     
 
