@@ -1,0 +1,84 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Nov  8 09:27:53 2024
+
+@author: tusharpirwani
+"""
+
+def read_maze(filename):
+    """Reads the maze from a file and returns it as a list of lines"""
+    with open(filename, "r") as file:
+        return file.read().splitlines()
+
+def check_walls(maze_lines, x, y):
+    """Checks the neighboring cells for walls and returns a tuple (left, right, up, down)."""
+    left = (x > 0 and maze_lines[y][x - 1] in '+-|')  # Checks if the cell to the left has a wall
+    right = (x < len(maze_lines[y]) - 1 and maze_lines[y][x + 1] in '+-|')  # Checks if the cell to the right has a wall
+    up = (y > 0 and maze_lines[y - 1][x] in '+-|')  # Checks if the cell above has a wall
+    down = (y < len(maze_lines) - 1 and maze_lines[y + 1][x] in '+-|')  # Checks if the cell below has a wall
+
+    return left, right, up, down
+    
+
+
+def convert_cell(maze_lines, x, y):
+    """Determines the box-drawing character for a cell based on neighboring walls."""
+    connections = {
+        (True, True, False, False): '─',   # Horizontal line
+        (False, False, True, True): '│',   # Vertical line
+        (True, False, False, True): '┐',   # Top-left corner
+        (False, True, False, True): '┌',   # Top-right corner
+        (True, False, True, False): '┘',   # Bottom-left corner
+        (False, True, True, False): '└',   # Bottom-right corner
+        (True, True, True, False): '┴',    # Bottom intersection
+        (True, True, False, True): '┬',    # Top intersection
+        (True, False, True, True): '┤',    # Right intersection
+        (False, True, True, True): '├',    # Left intersection
+        (True, True, True, True): '┼'      # Full intersection
+    }
+    
+# Get the status of neighboring walls using the check_walls function
+    left, right, up, down = check_walls(maze_lines, x, y)
+
+    # Return the corresponding box-drawing character or space if not found
+    return connections.get((left, right, up, down), ' ')
+
+
+def convert_maze(maze_lines):
+    """Converts the maze using box-drawing characters for improved readability."""
+    converted_maze = []
+    
+    for y, line in enumerate(maze_lines):
+        new_line = ""
+        for x, char in enumerate(line):
+            if char == '+':
+                new_line += convert_cell(maze_lines, x, y)
+            elif char == '-':
+                new_line += '─'
+            elif char == '|':
+                new_line += '│'
+            else:
+                new_line += char  # Leave other characters unchanged
+        converted_maze.append(new_line)
+    
+    return converted_maze
+
+def display_maze(original_maze, converted_maze):
+    """Prints both the original and converted maze to the terminal for comparison."""
+    print("Original Maze:")
+    for line in original_maze:
+        print(line)
+    
+    print("\nConverted Maze:")
+    for line in converted_maze:
+        print(line)
+
+# Main execution to read, convert, and display the maze
+if __name__ == "__main__":
+    maze_lines = read_maze("maze_output.txt")
+    converted_maze = convert_maze(maze_lines)
+    display_maze(maze_lines, converted_maze)
+
+
+
